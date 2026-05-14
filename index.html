@@ -71,25 +71,15 @@
             gap: 15px;
         }
 
-        .logo-20k {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            font-size: 2.5rem;
-            color: #071643;
-            letter-spacing: -1px;
+        .logo-img {
+            height: 90px;
+            width: auto;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
         }
 
-        .logo-20k span {
-            color: #da191f;
-        }
-
-        .logo-20k small {
-            font-size: 0.65rem;
-            display: block;
-            color: #071643;
-            background: none;
-            letter-spacing: 0;
-            font-weight: 500;
+        .logo-img:hover {
+            transform: scale(1.05);
         }
 
         .counter-container {
@@ -97,15 +87,24 @@
         }
 
         .counter-20k {
-            background: #da191f;
+            background: rgba(218, 25, 31, 0.85);
             padding: 12px 28px;
             border-radius: 60px;
             color: white;
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
             font-size: 2rem;
-            box-shadow: 0 6px 20px rgba(218, 25, 31, 0.3);
-            transition: transform 0.2s ease;
+            box-shadow: 0 8px 32px rgba(218, 25, 31, 0.4);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+        }
+
+        .counter-20k:hover {
+            transform: translateY(-2px);
+            background: rgba(218, 25, 31, 1);
+            box-shadow: 0 12px 40px rgba(218, 25, 31, 0.5);
         }
 
         .counter-20k span {
@@ -116,13 +115,25 @@
             margin-left: 5px;
         }
 
-        /* HERO - SIN PABLO */
+        /* HERO */
         .hero {
-            background: #071643;
+            background: linear-gradient(135deg, #071643 0%, #0c256e 100%);
+            position: relative;
             color: white;
-            padding: 60px 5%;
+            padding: 80px 5%;
             text-align: center;
             border-bottom: 4px solid #da191f;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+            pointer-events: none;
         }
 
         .hero h1 {
@@ -548,11 +559,9 @@
             (ClaveÚnica)</a>
     </div>
 
-    <header>
+    <header class="reveal">
         <div class="logo-area">
-            <div class="logo-20k">
-                20<span>K</span> <small>UNIÓN DEMÓCRATA INDEPENDIENTE</small>
-            </div>
+            <img src="logofinPLM_8K.png" alt="Objetivo 20K" class="logo-img">
             <div style="font-weight:600; border-left:2px solid #da191f; padding-left:15px;">EQUIPO 20K · 2026</div>
         </div>
         <div class="counter-container">
@@ -560,21 +569,21 @@
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero reveal">
         <h1>RECORREMOS CHILE PARA SUMARTE</h1>
         <p>El equipo 20K recorre el país construyendo la UDI del futuro con la fuerza de los 80.<br>➕20.000 nuevos
             militantes, ¡sé parte!</p>
     </section>
 
-    <div class="section-title">
+    <div class="section-title reveal">
         📍 MAPA DE RUTA 20K · VISITADOS Y PRÓXIMOS
     </div>
 
-    <div class="map-container">
+    <div class="map-container reveal">
         <div id="map"></div>
     </div>
 
-    <div class="section-title">
+    <div class="section-title reveal">
         🗓️ BITÁCORA DIARIA · ACTIVIDADES POR REGIÓN
     </div>
 
@@ -736,23 +745,43 @@
         map.zoomControl.setPosition('topright');
         L.control.scale({ metric: true, imperial: false, position: 'bottomleft', maxWidth: 150 }).addTo(map);
 
+        // MARCADORES CON TOOLTIPS Y PULSO
         function agregarMarcadores() {
             lugares.forEach(lugar => {
-                let iconUrl = lugar.visitado
-                    ? 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'
-                    : 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
+                let marker;
+                
+                if (lugar.visitado) {
+                    let iconUrl = 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+                    let blueIcon = L.icon({
+                        iconUrl: iconUrl,
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+                    marker = L.marker([lugar.lat, lugar.lng], { icon: blueIcon }).addTo(map);
+                } else {
+                    // Marcador con ANIMACIÓN DE PULSO para los próximos
+                    let pulseIcon = L.divIcon({
+                        className: 'pulse-container',
+                        html: '<div class="pulse-marker"></div>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+                    marker = L.marker([lugar.lat, lugar.lng], { icon: pulseIcon }).addTo(map);
+                }
 
-                let customIcon = L.icon({
-                    iconUrl: iconUrl,
-                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41]
+                // TOOLTIP (al pasar el mouse)
+                marker.bindTooltip(`<div style="font-family:'Montserrat',sans-serif; font-weight:700; color:#071643; padding:2px 5px;">${lugar.nombre}</div>`, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: [0, -20],
+                    opacity: 0.95
                 });
 
                 let popupContent = `<b>📍 ${lugar.nombre}</b><br>📅 ${lugar.fecha}<br>🏛️ ${lugar.region}<br><i>${lugar.descripcion.substring(0, 80)}...</i>`;
-                L.marker([lugar.lat, lugar.lng], { icon: customIcon }).addTo(map).bindPopup(popupContent);
+                marker.bindPopup(popupContent);
             });
         }
 
@@ -767,9 +796,12 @@
         function renderizarLugares() {
             const container = document.getElementById('lista-lugares');
             container.innerHTML = '';
-            lugares.forEach(lugar => {
+            lugares.forEach((lugar, index) => {
                 const card = document.createElement('div');
-                card.className = 'card-lugar';
+                // Añadir clase de revelado y escalonado (1 al 4)
+                const staggerClass = `stagger-${(index % 4) + 1}`;
+                card.className = `card-lugar reveal ${staggerClass}`;
+                
                 const badgeClass = lugar.visitado ? 'badge-visitado' : 'badge-proximamente';
                 const badgeText = lugar.visitado ? '✔️ VISITADO' : '⏳ PRÓXIMO';
                 const fechaTexto = lugar.visitado ? `📅 ${lugar.fecha}` : `🗓️ ${lugar.fecha} (próximo)`;
@@ -780,7 +812,7 @@
                     <h3>${lugar.nombre} <span class="${badgeClass}">${badgeText}</span></h3>
                     <div class="fecha">${fechaTexto} · ${lugar.region}</div>
                     <p>${lugar.descripcion}</p>
-                    ${lugar.visitado ? '<div style="margin-top:12px;"><span style="background:#eaeef8; padding:5px 12px; border-radius:60px; display:inline-block;"><i class="fas fa-camera"></i> 📸 20+ fotos del evento</span></div>' : '<div style="margin-top:12px;"><span style="background:#fce8e8; padding:5px 12px; border-radius:60px; display:inline-block;"><i class="fas fa-calendar-alt"></i> ¡Te esperamos!</span></div>'}
+                    ${lugar.visitado ? '<div style="margin-top:12px;"><span style="background:#eaeef8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem;"><i class="fas fa-camera"></i> 📸 20+ fotos del evento</span></div>' : '<div style="margin-top:12px;"><span style="background:#fce8e8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem;"><i class="fas fa-calendar-alt"></i> ¡Te esperamos!</span></div>'}
                 </div>
             `;
                 container.appendChild(card);
@@ -926,12 +958,33 @@
             }
         });
 
+        // REVEAL ANIMATION SCRIPT
+        function initReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        }
+
         // Inicializar
-        renderizarLugares();
-        agregarMarcadores();
-        setTimeout(() => {
-            ajustarZoomAMarcadores();
-        }, 500);
+        window.onload = () => {
+            renderizarLugares();
+            agregarMarcadores();
+            initReveal();
+            setTimeout(() => {
+                ajustarZoomAMarcadores();
+            }, 500);
+        };
     </script>
 </body>
 
