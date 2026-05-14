@@ -212,6 +212,23 @@
             transform: scale(1.02);
         }
 
+        @keyframes rotate-logo {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .logo-rotate {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: auto;
+            opacity: 0.15;
+            z-index: 1;
+            animation: rotate-logo 15s linear infinite;
+            pointer-events: none;
+        }
+
         .lugar-info {
             padding: 20px;
         }
@@ -667,7 +684,8 @@
                 fecha: "14 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=400&fit=crop",
-                descripcion: "Masivo encuentro con dirigentes sociales y nuevos militantes en el corazón de Santiago."
+                descripcion: "Masivo encuentro con dirigentes sociales y nuevos militantes en el corazón de Santiago.",
+                repo: "https://www.flickr.com/search/?text=santiago+chile"
             },
             {
                 id: 2,
@@ -678,7 +696,8 @@
                 fecha: "16 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?w=600&h=400&fit=crop",
-                descripcion: "Caminata multitudinaria por la costa del Biobío junto a jóvenes y familias."
+                descripcion: "Caminata multitudinaria por la costa del Biobío junto a jóvenes y familias.",
+                repo: "https://www.flickr.com/search/?text=concepcion+chile"
             },
             {
                 id: 3,
@@ -689,7 +708,8 @@
                 fecha: "18 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1569593795458-2b22657ae9dc?w=600&h=400&fit=crop",
-                descripcion: "Firma del compromiso por la seguridad y el empleo en la Quinta Región."
+                descripcion: "Firma del compromiso por la seguridad y el empleo en la Quinta Región.",
+                repo: "https://www.flickr.com/search/?text=vina+del+mar"
             },
             {
                 id: 4,
@@ -700,7 +720,8 @@
                 fecha: "20 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1598977128445-881804fbcba6?w=600&h=400&fit=crop",
-                descripcion: "Gran actividad minera y pro familia en el norte del país."
+                descripcion: "Gran actividad minera y pro familia en el norte del país.",
+                repo: "https://www.flickr.com/search/?text=antofagasta+chile"
             },
             {
                 id: 5,
@@ -711,7 +732,8 @@
                 fecha: "22 Abril 2026",
                 visitado: false,
                 img: "https://images.unsplash.com/photo-1596057346005-85f47d9fa5d0?w=600&h=400&fit=crop",
-                descripcion: "Próximo: Encuentro con comunidades y emprendedores mapuche."
+                descripcion: "Próximo: Encuentro con comunidades y emprendedores mapuche.",
+                repo: "#"
             },
             {
                 id: 6,
@@ -722,7 +744,8 @@
                 fecha: "25 Abril 2026",
                 visitado: false,
                 img: "https://images.unsplash.com/photo-1540372009-3bcfc2f08ca7?w=600&h=400&fit=crop",
-                descripcion: "Próximo: Cierre de semana con gran convocatoria porteña."
+                descripcion: "Próximo: Cierre de semana con gran convocatoria porteña.",
+                repo: "#"
             }
         ];
 
@@ -807,12 +830,17 @@
                 const fechaTexto = lugar.visitado ? `📅 ${lugar.fecha}` : `🗓️ ${lugar.fecha} (próximo)`;
 
                 card.innerHTML = `
-                <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
+                <div class="img-container" style="position:relative; background:#f0f2f5;">
+                    ${!lugar.visitado ? '<img src="logofinPLM_8K.png" class="logo-rotate">' : ''}
+                    <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" 
+                         style="${!lugar.visitado ? 'opacity:0.4; filter:grayscale(1);' : ''}"
+                         onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
+                </div>
                 <div class="lugar-info">
                     <h3>${lugar.nombre} <span class="${badgeClass}">${badgeText}</span></h3>
                     <div class="fecha">${fechaTexto} · ${lugar.region}</div>
                     <p>${lugar.descripcion}</p>
-                    ${lugar.visitado ? '<div style="margin-top:12px;"><span style="background:#eaeef8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem;"><i class="fas fa-camera"></i> 📸 20+ fotos del evento</span></div>' : '<div style="margin-top:12px;"><span style="background:#fce8e8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem;"><i class="fas fa-calendar-alt"></i> ¡Te esperamos!</span></div>'}
+                    ${lugar.visitado ? `<div style="margin-top:12px;"><a href="${lugar.repo}" target="_blank" style="text-decoration:none; color:inherit;"><span style="background:#eaeef8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='#d0daef'" onmouseout="this.style.background='#eaeef8'"><i class="fas fa-camera"></i> 📸 20+ fotos del evento</span></a></div>` : '<div style="margin-top:12px;"><span style="background:#fce8e8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem;"><i class="fas fa-calendar-alt"></i> ¡Te esperamos!</span></div>'}
                 </div>
             `;
                 container.appendChild(card);
