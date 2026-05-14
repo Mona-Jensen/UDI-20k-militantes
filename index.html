@@ -4,18 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>20K · Pablo Longueira · Nuevos Militantes UDI</title>
+    <title>20K · Nuevos Militantes UDI</title>
 
     <!-- Leaflet (mapa interactivo) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <!-- Tipografías según Kit de Marca 20K -->
+    <!-- Tipografías -->
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome para iconos -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -68,142 +68,28 @@
         .logo-area {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
-        .logo-img {
-            height: 90px;
-            width: auto;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
-            transition: transform 0.3s ease;
-        }
-
-        .logo-img:hover {
-            transform: scale(1.05);
-        }
-
-        .header-title {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #071643;
-            border-left: 3px solid #da191f;
-            padding-left: 15px;
-            line-height: 1.2;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .header-title span {
-            display: block;
-            font-size: 0.75rem;
-            font-family: 'Roboto', sans-serif;
-            font-weight: 500;
-            color: #da191f;
-            margin-top: 2px;
-        }
-
-        /* ANIMACIÓN DE PULSO PARA MARCADORES */
-        .pulse-marker {
-            background: rgba(218, 25, 31, 0.6);
-            border-radius: 50%;
-            width: 12px;
-            height: 12px;
-            box-shadow: 0 0 0 rgba(218, 25, 31, 0.4);
-            animation: pulse-red 2s infinite;
-            border: 2px solid white;
-        }
-
-        @keyframes pulse-red {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(218, 25, 31, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(218, 25, 31, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(218, 25, 31, 0); }
-        }
-
-        /* LEYENDA FLOTANTE */
-        .map-legend {
-            position: absolute;
-            bottom: 30px;
-            right: 30px;
-            background: #071643;
-            color: white;
-            padding: 15px;
-            border-radius: 12px;
-            z-index: 1000;
-            font-size: 0.8rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-
-        .legend-item:last-child { margin-bottom: 0; }
-
-        .dot { height: 10px; width: 10px; border-radius: 50%; }
-        .dot-blue { background: #3388ff; }
-        .dot-red { background: #da191f; border: 1px solid white; }
-        .line-dashed { border-top: 2px dashed #da191f; width: 20px; }
-
-        /* ESTILOS PARA LA BITÁCORA MEJORADA */
-        .card-lugar {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .badge-20k-card {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            width: 45px;
-            height: auto;
-            z-index: 10;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
-            pointer-events: none;
-            transition: transform 0.3s ease;
-        }
-
-        .card-lugar:hover .badge-20k-card {
-            transform: scale(1.2) rotate(-5deg);
-        }
-
-        .img-container {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-        }
-
-        .btn-repo {
-            position: absolute;
-            bottom: -50px;
-            left: 0;
-            right: 0;
-            background: rgba(7, 22, 67, 0.9);
-            color: white;
-            padding: 12px;
-            text-align: center;
+        .logo-20k {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-decoration: none;
-            transition: bottom 0.3s ease;
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: #071643;
+            letter-spacing: -1px;
         }
 
-        .card-lugar:hover .btn-repo {
-            bottom: 0;
+        .logo-20k span {
+            color: #da191f;
         }
 
-        .btn-repo:hover {
-            background: #da191f;
+        .logo-20k small {
+            font-size: 0.65rem;
+            display: block;
+            color: #071643;
+            background: none;
+            letter-spacing: 0;
+            font-weight: 500;
         }
 
         .counter-container {
@@ -230,7 +116,7 @@
             margin-left: 5px;
         }
 
-        /* HERO */
+        /* HERO - SIN PABLO */
         .hero {
             background: #071643;
             color: white;
@@ -445,6 +331,179 @@
             text-decoration: underline;
         }
 
+        /* ============================================ */
+        /* CHAT INTERACTIVO 20K BOTS */
+        /* ============================================ */
+        .chat-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            background: #da191f;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            transition: transform 0.2s;
+            border: 2px solid white;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.05);
+            background: #b0151a;
+        }
+
+        .chat-button i {
+            font-size: 30px;
+            color: white;
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 380px;
+            height: 520px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1000;
+            border: 1px solid #e0dcdc;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .chat-window.open {
+            display: flex;
+        }
+
+        .chat-header {
+            background: #071643;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            border-bottom: 3px solid #da191f;
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .chat-header p {
+            margin: 5px 0 0;
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background: #faf9f9;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message.bot {
+            align-items: flex-start;
+        }
+
+        .message.user {
+            align-items: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .message.bot .message-bubble {
+            background: white;
+            color: #071643;
+            border: 1px solid #e0dcdc;
+            border-bottom-left-radius: 4px;
+        }
+
+        .message.user .message-bubble {
+            background: #da191f;
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-area {
+            display: flex;
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #e0dcdc;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .chat-send {
+            background: #071643;
+            border: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .chat-send:hover {
+            background: #da191f;
+        }
+
+        .quick-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 10px;
+            background: white;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .quick-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .quick-btn:hover {
+            background: #da191f;
+            color: white;
+        }
+
         @media (max-width: 700px) {
             .hero h1 {
                 font-size: 1.8rem;
@@ -462,6 +521,20 @@
             #map {
                 height: 400px;
             }
+
+            .chat-window {
+                width: 320px;
+                height: 480px;
+                right: 15px;
+                bottom: 90px;
+            }
+
+            .chat-button {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
         }
     </style>
 </head>
@@ -477,12 +550,10 @@
 
     <header>
         <div class="logo-area">
-            <img src="logofinPLM_8K.png" alt="20K Pablo Longueira" class="logo-img">
-            
-            <div class="header-title">
-                PABLO LONGUEIRA
-                <span>Nuevos Militantes UDI · 2026</span>
+            <div class="logo-20k">
+                20<span>K</span> <small>UNIÓN DEMÓCRATA INDEPENDIENTE</small>
             </div>
+            <div style="font-weight:600; border-left:2px solid #da191f; padding-left:15px;">EQUIPO 20K · 2026</div>
         </div>
         <div class="counter-container">
             <div class="counter-20k" id="counterDisplay">15.432 <span>militantes nuevos</span></div>
@@ -491,31 +562,16 @@
 
     <section class="hero">
         <h1>RECORREMOS CHILE PARA SUMARTE</h1>
-        <p>Pablo Longueira y su equipo en terreno, construyendo la UDI del futuro con la fuerza de los 80.<br>➕20.000
-            nuevos militantes, ¡sé parte!</p>
+        <p>El equipo 20K recorre el país construyendo la UDI del futuro con la fuerza de los 80.<br>➕20.000 nuevos
+            militantes, ¡sé parte!</p>
     </section>
 
     <div class="section-title">
         📍 MAPA DE RUTA 20K · VISITADOS Y PRÓXIMOS
     </div>
 
-    <div class="map-container" style="position: relative;">
+    <div class="map-container">
         <div id="map"></div>
-        <!-- LEYENDA FLOTANTE -->
-        <div class="map-legend">
-            <div class="legend-item">
-                <span class="dot dot-blue"></span>
-                <span>Punto Visitado</span>
-            </div>
-            <div class="legend-item">
-                <span class="dot dot-red"></span>
-                <span>Próximo Destino (En Ruta)</span>
-            </div>
-            <div class="legend-item">
-                <div class="line-dashed"></div>
-                <span>Recorrido 20K Realizado</span>
-            </div>
-        </div>
     </div>
 
     <div class="section-title">
@@ -526,7 +582,7 @@
 
     <section class="form-militante">
         <h2>⚡ Súmate a los 20.000 · Hazte Militante UDI</h2>
-        <p>Completa tus datos y recibe info de la campaña + invitaciones a eventos.</p>
+        <p>Completa tus datos y recibe toda la información de la campaña + invitación a eventos.</p>
 
         <div class="link-servel-destacado">
             📢 <strong>Paso obligatorio para ser militante UDI:</strong>
@@ -545,14 +601,53 @@
     </section>
 
     <footer>
-        <p>🇨🇱 UNIÓN DEMÓCRATA INDEPENDIENTE · Campaña Pablo Longueira · “Firmeza, Orden y Progreso” 🇨🇱</p>
+        <p>🇨🇱 UNIÓN DEMÓCRATA INDEPENDIENTE · Equipo 20K · “Firmeza, Orden y Progreso” 🇨🇱</p>
         <p>Mapa actualizado diariamente con los lugares visitados por el equipo.</p>
         <p style="margin-top:12px;">🔗 <a href="https://partidos.servel.cl/afiliacioncu" target="_blank">Afiliación
                 oficial de militantes vía SERVEL</a></p>
     </footer>
 
+    <!-- CHAT 20K BOTS -->
+    <div class="chat-button" id="chatButton">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <h3><i class="fas fa-robot"></i> 20K Bots</h3>
+            <p>Asistente de afiliación UDI</p>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-bubble">
+                    👋 ¡Hola! Soy el asistente 20K. Puedo ayudarte con:<br>
+                    • Cómo afiliarte a la UDI<br>
+                    • Requisitos para ser militante<br>
+                    • Diferencia entre militante y simpatizante<br>
+                    • Pasos en el SERVEL<br>
+                    • Próximos eventos del equipo 20K<br><br>
+                    ¿En qué puedo ayudarte hoy?
+                </div>
+            </div>
+        </div>
+        <div class="quick-buttons">
+            <button class="quick-btn" data-question="¿Cómo me afilio a la UDI?">📝 ¿Cómo me afilio?</button>
+            <button class="quick-btn" data-question="¿Cuáles son los requisitos?">✅ Requisitos</button>
+            <button class="quick-btn" data-question="¿Qué diferencia hay entre militante y simpatizante?">🤔 Militante
+                vs Simpatizante</button>
+            <button class="quick-btn" data-question="¿Dónde veo los próximos eventos?">📍 Próximos eventos</button>
+            <button class="quick-btn" data-question="¿Qué es el SERVEL?">⚖️ ¿Qué es el SERVEL?</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu pregunta...">
+            <button class="chat-send" id="chatSend"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
     <script>
-        // BASE DE DATOS DE LUGARES (fotos reales por región)
+        // ============================================
+        // DATOS DE LUGARES
+        // ============================================
         let lugares = [
             {
                 id: 1,
@@ -563,8 +658,7 @@
                 fecha: "14 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=400&fit=crop",
-                descripcion: "Masivo encuentro con dirigentes sociales y nuevos militantes en el corazón de Santiago.",
-                repo: "https://www.flickr.com/search/?text=santiago+chile"
+                descripcion: "Masivo encuentro con dirigentes sociales y nuevos militantes en el corazón de Santiago."
             },
             {
                 id: 2,
@@ -575,8 +669,7 @@
                 fecha: "16 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?w=600&h=400&fit=crop",
-                descripcion: "Caminata multitudinaria por la costa del Biobío junto a jóvenes y familias.",
-                repo: "https://www.flickr.com/search/?text=concepcion+chile"
+                descripcion: "Caminata multitudinaria por la costa del Biobío junto a jóvenes y familias."
             },
             {
                 id: 3,
@@ -587,8 +680,7 @@
                 fecha: "18 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1569593795458-2b22657ae9dc?w=600&h=400&fit=crop",
-                descripcion: "Firma del compromiso por la seguridad y el empleo en la Quinta Región.",
-                repo: "https://www.flickr.com/search/?text=vina+del+mar"
+                descripcion: "Firma del compromiso por la seguridad y el empleo en la Quinta Región."
             },
             {
                 id: 4,
@@ -599,8 +691,7 @@
                 fecha: "20 Abril 2026",
                 visitado: true,
                 img: "https://images.unsplash.com/photo-1598977128445-881804fbcba6?w=600&h=400&fit=crop",
-                descripcion: "Gran actividad minera y pro familia en el norte del país.",
-                repo: "https://www.flickr.com/search/?text=antofagasta+chile"
+                descripcion: "Gran actividad minera y pro familia en el norte del país."
             },
             {
                 id: 5,
@@ -611,8 +702,7 @@
                 fecha: "22 Abril 2026",
                 visitado: false,
                 img: "https://images.unsplash.com/photo-1596057346005-85f47d9fa5d0?w=600&h=400&fit=crop",
-                descripcion: "Próximo: Encuentro con comunidades y emprendedores mapuche.",
-                repo: "#"
+                descripcion: "Próximo: Encuentro con comunidades y emprendedores mapuche."
             },
             {
                 id: 6,
@@ -623,113 +713,57 @@
                 fecha: "25 Abril 2026",
                 visitado: false,
                 img: "https://images.unsplash.com/photo-1540372009-3bcfc2f08ca7?w=600&h=400&fit=crop",
-                descripcion: "Próximo: Cierre de semana con gran convocatoria porteña.",
-                repo: "#"
+                descripcion: "Próximo: Cierre de semana con gran convocatoria porteña."
             }
         ];
 
         // ============================================
-        // MAPA MEJORADO VISUALMENTE (tiles HD, zoom, escala)
-        // Marcadores: AZULES y ROJOS originales
+        // MAPA
         // ============================================
-
-        // Inicializar mapa con mejor resolución y zoom inicial más cercano
         var map = L.map('map', {
             zoomControl: true,
             zoomSnap: 0.5,
-            zoomDelta: 0.5,
-            wheelDebounceTime: 20
+            zoomDelta: 0.5
         }).setView([-33.5, -70.6], 6.2);
 
-        // Tiles de ALTA CALIDAD (CartoDB Voyager - similar a Google Maps)
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 19,
-            minZoom: 4,
-            tileSize: 256
+            minZoom: 4
         }).addTo(map);
 
-        // Control de zoom mejorado (más grande, en esquina derecha)
         map.zoomControl.setPosition('topright');
+        L.control.scale({ metric: true, imperial: false, position: 'bottomleft', maxWidth: 150 }).addTo(map);
 
-        // Escala en metros/kilómetros (como Google Maps)
-        L.control.scale({
-            metric: true,
-            imperial: false,
-            position: 'bottomleft',
-            maxWidth: 150
-        }).addTo(map);
-
-        // MARCADORES CON TOOLTIPS Y PULSO
         function agregarMarcadores() {
             lugares.forEach(lugar => {
-                let marker;
-                
-                if (lugar.visitado) {
-                    let iconUrl = 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
-                    let blueIcon = L.icon({
-                        iconUrl: iconUrl,
-                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                        iconSize: [25, 41],
-                        iconAnchor: [12, 41],
-                        popupAnchor: [1, -34],
-                        shadowSize: [41, 41]
-                    });
-                    marker = L.marker([lugar.lat, lugar.lng], { icon: blueIcon }).addTo(map);
-                } else {
-                    // Marcador con ANIMACIÓN DE PULSO para los próximos
-                    let pulseIcon = L.divIcon({
-                        className: 'pulse-container',
-                        html: '<div class="pulse-marker"></div>',
-                        iconSize: [20, 20],
-                        iconAnchor: [10, 10]
-                    });
-                    marker = L.marker([lugar.lat, lugar.lng], { icon: pulseIcon }).addTo(map);
-                }
+                let iconUrl = lugar.visitado
+                    ? 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png'
+                    : 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png';
 
-                // TOOLTIP (al pasar el mouse)
-                marker.bindTooltip(`<div style="font-family:'Montserrat',sans-serif; font-weight:700; color:#071643; padding:2px 5px;">${lugar.nombre}</div>`, {
-                    permanent: false,
-                    direction: 'top',
-                    offset: [0, -20],
-                    opacity: 0.95
+                let customIcon = L.icon({
+                    iconUrl: iconUrl,
+                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                    iconSize: [25, 41],
+                    iconAnchor: [12, 41],
+                    popupAnchor: [1, -34],
+                    shadowSize: [41, 41]
                 });
 
                 let popupContent = `<b>📍 ${lugar.nombre}</b><br>📅 ${lugar.fecha}<br>🏛️ ${lugar.region}<br><i>${lugar.descripcion.substring(0, 80)}...</i>`;
-                marker.bindPopup(popupContent);
+                L.marker([lugar.lat, lugar.lng], { icon: customIcon }).addTo(map).bindPopup(popupContent);
             });
         }
 
-        // AGREGAR LÍNEA DE RUTA PUNTEADA
-        function dibujarRuta() {
-            // Orden: Santiago -> Concepción -> Viña -> Antofagasta
-            const rutaCoords = [
-                [-33.4372, -70.6506], // Santiago
-                [-36.827, -73.0503],  // Concepción
-                [-33.0246, -71.5518], // Viña
-                [-23.6509, -70.3975]  // Antofagasta
-            ];
-
-            L.polyline(rutaCoords, {
-                color: '#da191f',
-                weight: 4,
-                opacity: 0.7,
-                dashArray: '12, 12',
-                lineJoin: 'round'
-            }).addTo(map);
-        }
-
-        // Función para ajustar el zoom a todos los marcadores
         function ajustarZoomAMarcadores() {
             var bounds = L.latLngBounds([]);
             lugares.forEach(lugar => {
                 bounds.extend([lugar.lat, lugar.lng]);
             });
-            map.fitBounds(bounds, { padding: [80, 80] });
+            map.fitBounds(bounds, { padding: [50, 50] });
         }
 
-        // RENDERIZAR TARJETAS
         function renderizarLugares() {
             const container = document.getElementById('lista-lugares');
             container.innerHTML = '';
@@ -741,22 +775,21 @@
                 const fechaTexto = lugar.visitado ? `📅 ${lugar.fecha}` : `🗓️ ${lugar.fecha} (próximo)`;
 
                 card.innerHTML = `
-                <img src="logofinPLM_8K.png" class="badge-20k-card">
-                <div class="img-container">
-                    <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
-                    ${lugar.visitado ? `<a href="${lugar.repo}" target="_blank" class="btn-repo"><i class="fas fa-images"></i> VER REPOSITORIO DE FOTOS</a>` : ''}
-                </div>
+                <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
                 <div class="lugar-info">
                     <h3>${lugar.nombre} <span class="${badgeClass}">${badgeText}</span></h3>
                     <div class="fecha">${fechaTexto} · ${lugar.region}</div>
                     <p>${lugar.descripcion}</p>
+                    ${lugar.visitado ? '<div style="margin-top:12px;"><span style="background:#eaeef8; padding:5px 12px; border-radius:60px; display:inline-block;"><i class="fas fa-camera"></i> 📸 20+ fotos del evento</span></div>' : '<div style="margin-top:12px;"><span style="background:#fce8e8; padding:5px 12px; border-radius:60px; display:inline-block;"><i class="fas fa-calendar-alt"></i> ¡Te esperamos!</span></div>'}
                 </div>
             `;
                 container.appendChild(card);
             });
         }
 
+        // ============================================
         // CONTADOR ANIMADO
+        // ============================================
         let contadorActual = 15432;
         const counterElement = document.getElementById('counterDisplay');
 
@@ -779,7 +812,9 @@
             contadorActual = fin;
         }
 
+        // ============================================
         // FORMULARIO
+        // ============================================
         document.getElementById('btnMilitante').addEventListener('click', function () {
             let nombre = document.getElementById('nombre').value.trim();
             let email = document.getElementById('email').value.trim();
@@ -799,12 +834,101 @@
             document.getElementById('region').value = '';
         });
 
-        // INICIALIZAR TODO
+        // ============================================
+        // CHAT 20K BOTS
+        // ============================================
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+
+        // Base de conocimientos del chat
+        const respuestas = {
+            "¿Cómo me afilio a la UDI?": "📝 Para afiliarte a la UDI debes:\n1. Completar el formulario en esta página (nombre, email, región)\n2. Luego ingresar al SERVEL con tu ClaveÚnica: https://partidos.servel.cl/afiliacioncu\n3. Seleccionar UDI y enviar la solicitud\n4. Esperar confirmación del partido\n\n¡Todo el proceso es gratuito! 🇨🇱",
+
+            "¿Cuáles son los requisitos?": "✅ Los requisitos para ser militante UDI son:\n• Tener 18 años o más\n• Estar habilitado para sufragar\n• No estar afiliado a otro partido político\n• Aceptar los principios y estatutos de la UDI\n\nSi cumples estos requisitos, ¡puedes afiliarte hoy mismo!",
+
+            "¿Qué diferencia hay entre militante y simpatizante?": "🤔 **Militante**: Es miembro formal del partido, vota en elecciones internas, puede ser candidato y tiene derechos políticos.\n\n🤝 **Simpatizante**: Apoya al partido pero no tiene derechos formales ni voto en internas.\n\n¡Súmate como militante y haz la diferencia!",
+
+            "¿Dónde veo los próximos eventos?": "📍 Puedes ver todos los eventos del equipo 20K en el mapa interactivo de esta página:\n• Los marcadores AZULES son lugares ya visitados\n• Los marcadores ROJOS son las próximas actividades\n\n¡Te esperamos en tu región! 🚀",
+
+            "¿Qué es el SERVEL?": "⚖️ El SERVEL (Servicio Electoral de Chile) es el organismo encargado de los procesos electorales y el registro de afiliaciones a partidos políticos.\n\nPara ser militante oficial de la UDI, debes completar tu solicitud en su plataforma con ClaveÚnica. El enlace está arriba en la página.",
+
+            "default": "📢 No entendí tu pregunta. Puedo ayudarte con:\n• Cómo afiliarte a la UDI\n• Requisitos para ser militante\n• Diferencia militante vs simpatizante\n• Próximos eventos\n• Qué es el SERVEL\n\nEscribe una de esas opciones o haz clic en los botones. 👇"
+        };
+
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            messageDiv.innerHTML = `<div class="message-bubble">${text}</div>`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getBotResponse(question) {
+            const normalizedQuestion = question.trim().toLowerCase();
+
+            // Detectar palabras clave
+            if (normalizedQuestion.includes('afili') || normalizedQuestion.includes('cómo me hago militante')) {
+                return respuestas["¿Cómo me afilio a la UDI?"];
+            } else if (normalizedQuestion.includes('requisito') || normalizedQuestion.includes('necesito')) {
+                return respuestas["¿Cuáles son los requisitos?"];
+            } else if (normalizedQuestion.includes('diferencia') || normalizedQuestion.includes('simpatizante') || normalizedQuestion.includes('militante')) {
+                return respuestas["¿Qué diferencia hay entre militante y simpatizante?"];
+            } else if (normalizedQuestion.includes('evento') || normalizedQuestion.includes('actividad') || normalizedQuestion.includes('dónde')) {
+                return respuestas["¿Dónde veo los próximos eventos?"];
+            } else if (normalizedQuestion.includes('servel') || normalizedQuestion.includes('servicio electoral')) {
+                return respuestas["¿Qué es el SERVEL?"];
+            } else {
+                return respuestas["default"];
+            }
+        }
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message === "") return;
+
+            addMessage(message, true);
+            chatInput.value = "";
+
+            setTimeout(() => {
+                const response = getBotResponse(message);
+                addMessage(response, false);
+            }, 500);
+        }
+
+        chatButton.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+        });
+
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Botones rápidos
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const question = btn.getAttribute('data-question');
+                addMessage(question, true);
+                setTimeout(() => {
+                    const response = getBotResponse(question);
+                    addMessage(response, false);
+                }, 500);
+            });
+        });
+
+        // Cerrar chat si se hace clic fuera
+        document.addEventListener('click', (e) => {
+            if (!chatWindow.contains(e.target) && !chatButton.contains(e.target) && chatWindow.classList.contains('open')) {
+                chatWindow.classList.remove('open');
+            }
+        });
+
+        // Inicializar
         renderizarLugares();
         agregarMarcadores();
-        dibujarRuta();
-
-        // Ajustar zoom a los marcadores después de cargar
         setTimeout(() => {
             ajustarZoomAMarcadores();
         }, 500);
