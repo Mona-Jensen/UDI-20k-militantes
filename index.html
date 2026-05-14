@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>20K · Pablo Longueira · Nuevos Militantes UDI</title>
+
+    <!-- Leaflet (mapa interactivo) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Tipografías según Kit de Marca 20K -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #faf9f9;
+            color: #071643;
+            scroll-behavior: smooth;
+        }
+
+        /* BARRA SUPERIOR */
+        .top-banner {
+            background: #071643;
+            color: white;
+            text-align: center;
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #da191f;
+        }
+
+        .top-banner a {
+            color: #da191f;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        .top-banner span {
+            color: #da191f;
+        }
+
+        /* HEADER */
+        header {
+            background: #faf9f9;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #e0dcdc;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-img {
+            height: 90px;
+            width: auto;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+
+        .header-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #071643;
+            border-left: 3px solid #da191f;
+            padding-left: 15px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-title span {
+            display: block;
+            font-size: 0.75rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            color: #da191f;
+            margin-top: 2px;
+        }
+
+        /* ANIMACIÓN DE PULSO PARA MARCADORES */
+        .pulse-marker {
+            background: rgba(218, 25, 31, 0.6);
+            border-radius: 50%;
+            width: 12px;
+            height: 12px;
+            box-shadow: 0 0 0 rgba(218, 25, 31, 0.4);
+            animation: pulse-red 2s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(218, 25, 31, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(218, 25, 31, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(218, 25, 31, 0); }
+        }
+
+        /* LEYENDA FLOTANTE */
+        .map-legend {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: #071643;
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            z-index: 1000;
+            font-size: 0.8rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .legend-item:last-child { margin-bottom: 0; }
+
+        .dot { height: 10px; width: 10px; border-radius: 50%; }
+        .dot-blue { background: #3388ff; }
+        .dot-red { background: #da191f; border: 1px solid white; }
+        .line-dashed { border-top: 2px dashed #da191f; width: 20px; }
+
+        /* ESTILOS PARA LA BITÁCORA MEJORADA */
+        .card-lugar {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-20k-card {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 45px;
+            height: auto;
+            z-index: 10;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+            pointer-events: none;
+            transition: transform 0.3s ease;
+        }
+
+        .card-lugar:hover .badge-20k-card {
+            transform: scale(1.2) rotate(-5deg);
+        }
+
+        .img-container {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .btn-repo {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            background: rgba(7, 22, 67, 0.9);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: bottom 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card-lugar:hover .btn-repo {
+            bottom: 0;
+        }
+
+        .btn-repo:hover {
+            background: #da191f;
+        }
+
+        .counter-container {
+            text-align: center;
+        }
+
+        .counter-20k {
+            background: #da191f;
+            padding: 12px 28px;
+            border-radius: 60px;
+            color: white;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            box-shadow: 0 6px 20px rgba(218, 25, 31, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .counter-20k span {
+            font-size: 0.9rem;
+            font-weight: 400;
+            font-family: 'Roboto', sans-serif;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        /* HERO */
+        .hero {
+            background: #071643;
+            color: white;
+            padding: 60px 5%;
+            text-align: center;
+            border-bottom: 4px solid #da191f;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0.95;
+        }
+
+        /* SECCIONES */
+        .section-title {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            padding: 40px 5% 10px 5%;
+            color: #071643;
+            border-left: 6px solid #da191f;
+            margin: 20px 0 20px 0;
+        }
+
+        .map-container {
+            margin: 10px 5% 30px 5%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25);
+            border: 1px solid #e0dcdc;
+        }
+
+        #map {
+            height: 520px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* TARJETAS DE LUGARES */
+        .lugares-panel {
+            margin: 10px 5% 50px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .card-lugar {
+            background: #faf9f9;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid #e0dcdc;
+        }
+
+        .card-lugar:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .lugar-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #d0d0d0;
+            transition: transform 0.3s ease;
+        }
+
+        .card-lugar:hover .lugar-img {
+            transform: scale(1.02);
+        }
+
+        .lugar-info {
+            padding: 20px;
+        }
+
+        .lugar-info h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+            color: #071643;
+        }
+
+        .badge-visitado {
+            background: #071643;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+        }
+
+        .badge-proximamente {
+            background: #da191f;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+
+        .fecha {
+            color: #6c6c6c;
+            margin: 8px 0;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        /* FORMULARIO */
+        .form-militante {
+            background: #ffffff;
+            margin: 20px 5% 60px;
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            border: 1px solid #e0dcdc;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-militante h2 {
+            font-family: 'Montserrat', sans-serif;
+            color: #071643;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .input-group input {
+            padding: 14px 20px;
+            font-size: 1rem;
+            border-radius: 50px;
+            border: 1px solid #ccc;
+            width: 240px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .btn-rojo {
+            background: #da191f;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-rojo:hover {
+            background: #b0151a;
+            transform: scale(0.98);
+        }
+
+        .link-servel-destacado {
+            background: #071643;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            max-width: 550px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.9rem;
+        }
+
+        .link-servel-destacado a {
+            color: #da191f;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        footer {
+            background: #071643;
+            color: #9aa9c4;
+            text-align: center;
+            padding: 35px;
+            font-size: 0.85rem;
+            border-top: 4px solid #da191f;
+        }
+
+        footer a {
+            color: #da191f;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 700px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .counter-20k {
+                font-size: 1.4rem;
+                padding: 8px 20px;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            #map {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-banner">
+        🔥 <strong>OBJETIVO 20K</strong> · NUEVOS MILITANTES UDI 🔥 · <span>#ChileAvanza</span>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="https://partidos.servel.cl/afiliacioncu" target="_blank">✅ Afiliación oficial vía SERVEL
+            (ClaveÚnica)</a>
+    </div>
+
+    <header>
+        <div class="logo-area">
+            <img src="logofinPLM_8K.png" alt="20K Pablo Longueira" class="logo-img">
+            
+            <div class="header-title">
+                PABLO LONGUEIRA
+                <span>Nuevos Militantes UDI · 2026</span>
+            </div>
+        </div>
+        <div class="counter-container">
+            <div class="counter-20k" id="counterDisplay">15.432 <span>militantes nuevos</span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>RECORREMOS CHILE PARA SUMARTE</h1>
+        <p>Pablo Longueira y su equipo en terreno, construyendo la UDI del futuro con la fuerza de los 80.<br>➕20.000
+            nuevos militantes, ¡sé parte!</p>
+    </section>
+
+    <div class="section-title">
+        📍 MAPA DE RUTA 20K · VISITADOS Y PRÓXIMOS
+    </div>
+
+    <div class="map-container" style="position: relative;">
+        <div id="map"></div>
+        <!-- LEYENDA FLOTANTE -->
+        <div class="map-legend">
+            <div class="legend-item">
+                <span class="dot dot-blue"></span>
+                <span>Punto Visitado</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot dot-red"></span>
+                <span>Próximo Destino (En Ruta)</span>
+            </div>
+            <div class="legend-item">
+                <div class="line-dashed"></div>
+                <span>Recorrido 20K Realizado</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title">
+        🗓️ BITÁCORA DIARIA · ACTIVIDADES POR REGIÓN
+    </div>
+
+    <div class="lugares-panel" id="lista-lugares"></div>
+
+    <section class="form-militante">
+        <h2>⚡ Súmate a los 20.000 · Hazte Militante UDI</h2>
+        <p>Completa tus datos y recibe info de la campaña + invitaciones a eventos.</p>
+
+        <div class="link-servel-destacado">
+            📢 <strong>Paso obligatorio para ser militante UDI:</strong>
+            <a href="https://partidos.servel.cl/afiliacioncu" target="_blank">Afíliate aquí con tu ClaveÚnica →</a>
+        </div>
+
+        <div class="input-group">
+            <input type="text" placeholder="Nombre completo" id="nombre">
+            <input type="email" placeholder="Correo electrónico" id="email">
+            <input type="text" placeholder="Región / Comuna" id="region">
+            <button class="btn-rojo" id="btnMilitante">QUIERO SER PARTE →</button>
+        </div>
+        <div id="mensajeForm" style="margin-top: 18px; font-weight: 500;"></div>
+        <p style="font-size:0.7rem; margin-top:20px;">🔐 La UDI respeta tus datos. La militancia oficial se completa en
+            partidos.servel.cl con ClaveÚnica.</p>
+    </section>
+
+    <footer>
+        <p>🇨🇱 UNIÓN DEMÓCRATA INDEPENDIENTE · Campaña Pablo Longueira · “Firmeza, Orden y Progreso” 🇨🇱</p>
+        <p>Mapa actualizado diariamente con los lugares visitados por el equipo.</p>
+        <p style="margin-top:12px;">🔗 <a href="https://partidos.servel.cl/afiliacioncu" target="_blank">Afiliación
+                oficial de militantes vía SERVEL</a></p>
+    </footer>
+
+    <script>
+        // BASE DE DATOS DE LUGARES (fotos reales por región)
+        let lugares = [
+            {
+                id: 1,
+                nombre: "Plaza de Armas - Santiago",
+                region: "Región Metropolitana",
+                lat: -33.4372,
+                lng: -70.6506,
+                fecha: "14 Abril 2026",
+                visitado: true,
+                img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=400&fit=crop",
+                descripcion: "Masivo encuentro con dirigentes sociales y nuevos militantes en el corazón de Santiago.",
+                repo: "https://www.flickr.com/search/?text=santiago+chile"
+            },
+            {
+                id: 2,
+                nombre: "Plaza Independencia - Concepción",
+                region: "Región del Biobío",
+                lat: -36.827,
+                lng: -73.0503,
+                fecha: "16 Abril 2026",
+                visitado: true,
+                img: "https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?w=600&h=400&fit=crop",
+                descripcion: "Caminata multitudinaria por la costa del Biobío junto a jóvenes y familias.",
+                repo: "https://www.flickr.com/search/?text=concepcion+chile"
+            },
+            {
+                id: 3,
+                nombre: "Mall Plaza - Viña del Mar",
+                region: "Región de Valparaíso",
+                lat: -33.0246,
+                lng: -71.5518,
+                fecha: "18 Abril 2026",
+                visitado: true,
+                img: "https://images.unsplash.com/photo-1569593795458-2b22657ae9dc?w=600&h=400&fit=crop",
+                descripcion: "Firma del compromiso por la seguridad y el empleo en la Quinta Región.",
+                repo: "https://www.flickr.com/search/?text=vina+del+mar"
+            },
+            {
+                id: 4,
+                nombre: "Plaza Colón - Antofagasta",
+                region: "Región de Antofagasta",
+                lat: -23.6509,
+                lng: -70.3975,
+                fecha: "20 Abril 2026",
+                visitado: true,
+                img: "https://images.unsplash.com/photo-1598977128445-881804fbcba6?w=600&h=400&fit=crop",
+                descripcion: "Gran actividad minera y pro familia en el norte del país.",
+                repo: "https://www.flickr.com/search/?text=antofagasta+chile"
+            },
+            {
+                id: 5,
+                nombre: "Cerro Ñielol - Temuco",
+                region: "Región de La Araucanía",
+                lat: -38.7359,
+                lng: -72.5903,
+                fecha: "22 Abril 2026",
+                visitado: false,
+                img: "https://images.unsplash.com/photo-1596057346005-85f47d9fa5d0?w=600&h=400&fit=crop",
+                descripcion: "Próximo: Encuentro con comunidades y emprendedores mapuche.",
+                repo: "#"
+            },
+            {
+                id: 6,
+                nombre: "Plaza Sotomayor - Valparaíso",
+                region: "Región de Valparaíso",
+                lat: -33.0393,
+                lng: -71.6275,
+                fecha: "25 Abril 2026",
+                visitado: false,
+                img: "https://images.unsplash.com/photo-1540372009-3bcfc2f08ca7?w=600&h=400&fit=crop",
+                descripcion: "Próximo: Cierre de semana con gran convocatoria porteña.",
+                repo: "#"
+            }
+        ];
+
+        // ============================================
+        // MAPA MEJORADO VISUALMENTE (tiles HD, zoom, escala)
+        // Marcadores: AZULES y ROJOS originales
+        // ============================================
+
+        // Inicializar mapa con mejor resolución y zoom inicial más cercano
+        var map = L.map('map', {
+            zoomControl: true,
+            zoomSnap: 0.5,
+            zoomDelta: 0.5,
+            wheelDebounceTime: 20
+        }).setView([-33.5, -70.6], 6.2);
+
+        // Tiles de ALTA CALIDAD (CartoDB Voyager - similar a Google Maps)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            minZoom: 4,
+            tileSize: 256
+        }).addTo(map);
+
+        // Control de zoom mejorado (más grande, en esquina derecha)
+        map.zoomControl.setPosition('topright');
+
+        // Escala en metros/kilómetros (como Google Maps)
+        L.control.scale({
+            metric: true,
+            imperial: false,
+            position: 'bottomleft',
+            maxWidth: 150
+        }).addTo(map);
+
+        // MARCADORES CON TOOLTIPS Y PULSO
+        function agregarMarcadores() {
+            lugares.forEach(lugar => {
+                let marker;
+                
+                if (lugar.visitado) {
+                    let iconUrl = 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+                    let blueIcon = L.icon({
+                        iconUrl: iconUrl,
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+                    marker = L.marker([lugar.lat, lugar.lng], { icon: blueIcon }).addTo(map);
+                } else {
+                    // Marcador con ANIMACIÓN DE PULSO para los próximos
+                    let pulseIcon = L.divIcon({
+                        className: 'pulse-container',
+                        html: '<div class="pulse-marker"></div>',
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    });
+                    marker = L.marker([lugar.lat, lugar.lng], { icon: pulseIcon }).addTo(map);
+                }
+
+                // TOOLTIP (al pasar el mouse)
+                marker.bindTooltip(`<div style="font-family:'Montserrat',sans-serif; font-weight:700; color:#071643; padding:2px 5px;">${lugar.nombre}</div>`, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: [0, -20],
+                    opacity: 0.95
+                });
+
+                let popupContent = `<b>📍 ${lugar.nombre}</b><br>📅 ${lugar.fecha}<br>🏛️ ${lugar.region}<br><i>${lugar.descripcion.substring(0, 80)}...</i>`;
+                marker.bindPopup(popupContent);
+            });
+        }
+
+        // AGREGAR LÍNEA DE RUTA PUNTEADA
+        function dibujarRuta() {
+            // Orden: Santiago -> Concepción -> Viña -> Antofagasta
+            const rutaCoords = [
+                [-33.4372, -70.6506], // Santiago
+                [-36.827, -73.0503],  // Concepción
+                [-33.0246, -71.5518], // Viña
+                [-23.6509, -70.3975]  // Antofagasta
+            ];
+
+            L.polyline(rutaCoords, {
+                color: '#da191f',
+                weight: 4,
+                opacity: 0.7,
+                dashArray: '12, 12',
+                lineJoin: 'round'
+            }).addTo(map);
+        }
+
+        // Función para ajustar el zoom a todos los marcadores
+        function ajustarZoomAMarcadores() {
+            var bounds = L.latLngBounds([]);
+            lugares.forEach(lugar => {
+                bounds.extend([lugar.lat, lugar.lng]);
+            });
+            map.fitBounds(bounds, { padding: [80, 80] });
+        }
+
+        // RENDERIZAR TARJETAS
+        function renderizarLugares() {
+            const container = document.getElementById('lista-lugares');
+            container.innerHTML = '';
+            lugares.forEach(lugar => {
+                const card = document.createElement('div');
+                card.className = 'card-lugar';
+                const badgeClass = lugar.visitado ? 'badge-visitado' : 'badge-proximamente';
+                const badgeText = lugar.visitado ? '✔️ VISITADO' : '⏳ PRÓXIMO';
+                const fechaTexto = lugar.visitado ? `📅 ${lugar.fecha}` : `🗓️ ${lugar.fecha} (próximo)`;
+
+                card.innerHTML = `
+                <img src="logofinPLM_8K.png" class="badge-20k-card">
+                <div class="img-container">
+                    <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
+                    ${lugar.visitado ? `<a href="${lugar.repo}" target="_blank" class="btn-repo"><i class="fas fa-images"></i> VER REPOSITORIO DE FOTOS</a>` : ''}
+                </div>
+                <div class="lugar-info">
+                    <h3>${lugar.nombre} <span class="${badgeClass}">${badgeText}</span></h3>
+                    <div class="fecha">${fechaTexto} · ${lugar.region}</div>
+                    <p>${lugar.descripcion}</p>
+                </div>
+            `;
+                container.appendChild(card);
+            });
+        }
+
+        // CONTADOR ANIMADO
+        let contadorActual = 15432;
+        const counterElement = document.getElementById('counterDisplay');
+
+        function animarContador(nuevoValor) {
+            const inicio = contadorActual;
+            const fin = nuevoValor;
+            const duracion = 600;
+            const incremento = (fin - inicio) / (duracion / 16);
+            let actual = inicio;
+
+            const interval = setInterval(() => {
+                actual += incremento;
+                if (actual >= fin) {
+                    clearInterval(interval);
+                    actual = fin;
+                }
+                counterElement.innerHTML = Math.floor(actual).toLocaleString('es-CL') + ' <span>militantes nuevos</span>';
+            }, 16);
+
+            contadorActual = fin;
+        }
+
+        // FORMULARIO
+        document.getElementById('btnMilitante').addEventListener('click', function () {
+            let nombre = document.getElementById('nombre').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let region = document.getElementById('region').value.trim();
+            let mensajeDiv = document.getElementById('mensajeForm');
+
+            if (nombre === "" || email === "" || region === "") {
+                mensajeDiv.innerHTML = '<span style="color:#da191f;"><i class="fas fa-exclamation-circle"></i> ⚠️ Completa todos los campos para sumarte a los 20.000</span>';
+                return;
+            }
+
+            let nuevoTotal = contadorActual + 1;
+            animarContador(nuevoTotal);
+            mensajeDiv.innerHTML = '<span style="color:#071643;"><i class="fas fa-check-circle"></i> ✅ ¡Bienvenido a la UDI! No olvides completar tu afiliación oficial en el SERVEL (link arriba).</span>';
+            document.getElementById('nombre').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('region').value = '';
+        });
+
+        // INICIALIZAR TODO
+        renderizarLugares();
+        agregarMarcadores();
+        dibujarRuta();
+
+        // Ajustar zoom a los marcadores después de cargar
+        setTimeout(() => {
+            ajustarZoomAMarcadores();
+        }, 500);
+    </script>
+</body>
+
+</html>
