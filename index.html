@@ -74,7 +74,7 @@
         .logo-img {
             height: 90px;
             width: auto;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
             transition: transform 0.3s ease;
         }
 
@@ -129,8 +129,11 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
             background-size: 30px 30px;
             opacity: 0.3;
             pointer-events: none;
@@ -176,6 +179,85 @@
             height: 520px;
             width: 100%;
             z-index: 1;
+            border-radius: 24px;
+        }
+
+        /* ANIMACIÓN DE PULSO PARA MARCADORES PRÓXIMOS */
+        .pulse-marker {
+            background: rgba(218, 25, 31, 0.7);
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            box-shadow: 0 0 0 rgba(218, 25, 31, 0.4);
+            animation: pulse-red 2s infinite;
+            border: 2px solid white;
+        }
+
+        @keyframes pulse-red {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(218, 25, 31, 0.7);
+            }
+
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 15px rgba(218, 25, 31, 0);
+            }
+
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(218, 25, 31, 0);
+            }
+        }
+
+        /* LEYENDA FLOTANTE */
+        .map-legend {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            padding: 12px 18px;
+            border-radius: 16px;
+            z-index: 1000;
+            font-size: 0.8rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #071643;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+
+        .legend-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+        }
+
+        .dot-blue {
+            background: #2A82CB;
+            border: 1px solid white;
+        }
+
+        .dot-red {
+            background: #da191f;
+            border: 1px solid white;
+        }
+
+        .line-dashed {
+            border-top: 2px dashed #da191f;
+            width: 20px;
         }
 
         /* TARJETAS DE LUGARES */
@@ -210,23 +292,6 @@
 
         .card-lugar:hover .lugar-img {
             transform: scale(1.02);
-        }
-
-        @keyframes rotate-logo {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        .logo-rotate {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 80px;
-            height: auto;
-            opacity: 0.15;
-            z-index: 1;
-            animation: rotate-logo 15s linear infinite;
-            pointer-events: none;
         }
 
         .lugar-info {
@@ -323,6 +388,23 @@
             transform: scale(0.98);
         }
 
+        .btn-rojo:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error-texto {
+            color: #da191f;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 5px;
+            display: none;
+            text-align: left;
+            width: 100%;
+        }
+
         .link-servel-destacado {
             background: #071643;
             color: white;
@@ -359,9 +441,7 @@
             text-decoration: underline;
         }
 
-        /* ============================================ */
-        /* CHAT INTERACTIVO 20K BOTS */
-        /* ============================================ */
+        /* CHAT INTERACTIVO */
         .chat-button {
             position: fixed;
             bottom: 30px;
@@ -578,7 +658,7 @@
 
     <header class="reveal">
         <div class="logo-area">
-            <img src="logofinPLM_8K.png" alt="Objetivo 20K" class="logo-img">
+            <img src="logofinPLM_8K (1).png" alt="Objetivo 20K" class="logo-img" decoding="async">
             <div style="font-weight:600; border-left:2px solid #da191f; padding-left:15px;">EQUIPO 20K · 2026</div>
         </div>
         <div class="counter-container">
@@ -596,8 +676,23 @@
         📍 MAPA DE RUTA 20K · VISITADOS Y PRÓXIMOS
     </div>
 
-    <div class="map-container reveal">
+    <div class="map-container reveal" style="position: relative;">
         <div id="map"></div>
+        <div class="map-legend">
+            <div class="legend-item">
+                <span class="dot dot-blue"></span>
+                <span>Lugar Visitado</span>
+            </div>
+            <div class="legend-item">
+                <div class="pulse-marker"
+                    style="width:10px; height:10px; animation:none; position:static; transform:none;"></div>
+                <span>Próximo Destino</span>
+            </div>
+            <div class="legend-item">
+                <div class="line-dashed"></div>
+                <span>Ruta 20K Recorrida</span>
+            </div>
+        </div>
     </div>
 
     <div class="section-title reveal">
@@ -617,6 +712,10 @@
 
         <div class="input-group">
             <input type="text" placeholder="Nombre completo" id="nombre">
+            <div style="display:flex; flex-direction:column; flex:1;">
+                <input type="text" placeholder="RUT (ej: 12.345.678-9)" id="rut">
+                <div id="rutError" class="error-texto">⚠️ RUT inválido. Revisa el dígito verificador.</div>
+            </div>
             <input type="email" placeholder="Correo electrónico" id="email">
             <input type="text" placeholder="Región / Comuna" id="region">
             <button class="btn-rojo" id="btnMilitante">QUIERO SER PARTE →</button>
@@ -768,15 +867,13 @@
         map.zoomControl.setPosition('topright');
         L.control.scale({ metric: true, imperial: false, position: 'bottomleft', maxWidth: 150 }).addTo(map);
 
-        // MARCADORES CON TOOLTIPS Y PULSO
         function agregarMarcadores() {
             lugares.forEach(lugar => {
                 let marker;
-                
+
                 if (lugar.visitado) {
-                    let iconUrl = 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
                     let blueIcon = L.icon({
-                        iconUrl: iconUrl,
+                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
                         shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
                         iconSize: [25, 41],
                         iconAnchor: [12, 41],
@@ -785,7 +882,6 @@
                     });
                     marker = L.marker([lugar.lat, lugar.lng], { icon: blueIcon }).addTo(map);
                 } else {
-                    // Marcador con ANIMACIÓN DE PULSO para los próximos
                     let pulseIcon = L.divIcon({
                         className: 'pulse-container',
                         html: '<div class="pulse-marker"></div>',
@@ -795,17 +891,30 @@
                     marker = L.marker([lugar.lat, lugar.lng], { icon: pulseIcon }).addTo(map);
                 }
 
-                // TOOLTIP (al pasar el mouse)
-                marker.bindTooltip(`<div style="font-family:'Montserrat',sans-serif; font-weight:700; color:#071643; padding:2px 5px;">${lugar.nombre}</div>`, {
-                    permanent: false,
-                    direction: 'top',
-                    offset: [0, -20],
-                    opacity: 0.95
-                });
+                marker.bindTooltip(`<div style="font-family:'Montserrat',sans-serif; font-weight:700; color:#071643; padding:2px 5px;">${lugar.nombre}</div>`);
 
-                let popupContent = `<b>📍 ${lugar.nombre}</b><br>📅 ${lugar.fecha}<br>🏛️ ${lugar.region}<br><i>${lugar.descripcion.substring(0, 80)}...</i>`;
+                let popupContent = `
+                    <div style="font-family:'Montserrat',sans-serif; min-width:150px;">
+                        <b style="color:#071643; font-size:1rem;">📍 ${lugar.nombre}</b><br>
+                        <span style="color:#da191f; font-weight:700; font-size:0.8rem;">${lugar.fecha}</span><br>
+                        <p style="margin-top:8px; font-size:0.85rem; color:#444;">${lugar.descripcion.substring(0, 80)}...</p>
+                    </div>
+                `;
                 marker.bindPopup(popupContent);
             });
+        }
+
+        function dibujarRuta() {
+            const visitados = lugares.filter(l => l.visitado).map(l => [l.lat, l.lng]);
+            if (visitados.length > 1) {
+                L.polyline(visitados, {
+                    color: '#da191f',
+                    weight: 3,
+                    opacity: 0.6,
+                    dashArray: '8, 12',
+                    lineJoin: 'round'
+                }).addTo(map);
+            }
         }
 
         function ajustarZoomAMarcadores() {
@@ -816,33 +925,51 @@
             map.fitBounds(bounds, { padding: [50, 50] });
         }
 
+        // ============================================
+        // RENDERIZAR TARJETAS CON BOTONES DEL MISMO FORMATO
+        // ============================================
         function renderizarLugares() {
             const container = document.getElementById('lista-lugares');
             container.innerHTML = '';
             lugares.forEach((lugar, index) => {
                 const card = document.createElement('div');
-                // Añadir clase de revelado y escalonado (1 al 4)
                 const staggerClass = `stagger-${(index % 4) + 1}`;
                 card.className = `card-lugar reveal ${staggerClass}`;
-                
+
                 const badgeClass = lugar.visitado ? 'badge-visitado' : 'badge-proximamente';
                 const badgeText = lugar.visitado ? '✔️ VISITADO' : '⏳ PRÓXIMO';
                 const fechaTexto = lugar.visitado ? `📅 ${lugar.fecha}` : `🗓️ ${lugar.fecha} (próximo)`;
 
+                let botonHTML = '';
+                if (lugar.visitado) {
+                    botonHTML = `<div style="margin-top:12px;">
+                        <a href="${lugar.repo}" target="_blank" style="text-decoration:none;">
+                            <span style="background:#071643; color:white; padding:8px 16px; border-radius:8px; display:inline-block; font-size:0.75rem; font-weight:600; transition:0.3s; cursor:pointer;">
+                                <i class="fas fa-camera"></i> Ver galería de fotos
+                            </span>
+                        </a>
+                    </div>`;
+                } else {
+                    botonHTML = `<div style="margin-top:12px;">
+                        <span style="background:#fce8e8; color:#da191f; padding:8px 16px; border-radius:8px; display:inline-block; font-size:0.75rem; font-weight:600;">
+                            <i class="fas fa-calendar-alt"></i> ¡Próximamente!
+                        </span>
+                    </div>`;
+                }
+
                 card.innerHTML = `
-                <div class="img-container" style="position:relative; background:#f0f2f5;">
-                    ${!lugar.visitado ? '<img src="logofinPLM_8K.png" class="logo-rotate">' : ''}
-                    <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" 
-                         style="${!lugar.visitado ? 'opacity:0.4; filter:grayscale(1);' : ''}"
-                         onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
-                </div>
-                <div class="lugar-info">
-                    <h3>${lugar.nombre} <span class="${badgeClass}">${badgeText}</span></h3>
-                    <div class="fecha">${fechaTexto} · ${lugar.region}</div>
-                    <p>${lugar.descripcion}</p>
-                    ${lugar.visitado ? `<div style="margin-top:12px;"><a href="${lugar.repo}" target="_blank" style="text-decoration:none; color:inherit;"><span style="background:#eaeef8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem; cursor:pointer; transition:0.2s;" onmouseover="this.style.background='#d0daef'" onmouseout="this.style.background='#eaeef8'"><i class="fas fa-camera"></i> 📸 20+ fotos del evento</span></a></div>` : '<div style="margin-top:12px;"><span style="background:#fce8e8; padding:5px 12px; border-radius:60px; display:inline-block; font-size:0.75rem;"><i class="fas fa-calendar-alt"></i> ¡Te esperamos!</span></div>'}
-                </div>
-            `;
+                    <div class="img-container" style="position:relative; background:#f0f2f5;">
+                        <img class="lugar-img" src="${lugar.img}" alt="${lugar.nombre}" loading="lazy" 
+                             style="${!lugar.visitado ? 'opacity:0.6; filter:grayscale(0.8);' : ''}"
+                             onerror="this.src='https://placehold.co/600x400/071643/white?text=20K'">
+                    </div>
+                    <div class="lugar-info">
+                        <h3>${lugar.nombre} <span class="${badgeClass}">${badgeText}</span></h3>
+                        <div class="fecha">${fechaTexto} · ${lugar.region}</div>
+                        <p>${lugar.descripcion}</p>
+                        ${botonHTML}
+                    </div>
+                `;
                 container.appendChild(card);
             });
         }
@@ -873,23 +1000,118 @@
         }
 
         // ============================================
+        // VALIDACIÓN Y FORMATEO DE RUT (CORREGIDO - MÓDULO 11)
+        // ============================================
+        function validarRUT(rutCompleto) {
+            // Limpiar el RUT: eliminar puntos, guiones, espacios y convertir a mayúsculas
+            let rutLimpio = rutCompleto.replace(/\./g, '').replace(/-/g, '').replace(/\s/g, '').toUpperCase();
+
+            // Validar largo mínimo
+            if (rutLimpio.length < 8) return false;
+
+            // Separar cuerpo y dígito verificador
+            let cuerpo = rutLimpio.slice(0, -1);
+            let dvIngresado = rutLimpio.slice(-1);
+
+            // Validar que el cuerpo sean solo números
+            if (!/^\d+$/.test(cuerpo)) return false;
+
+            // Calcular dígito verificador esperado (Algoritmo Módulo 11)
+            let suma = 0;
+            let multiplo = 2;
+
+            // Recorrer el cuerpo de derecha a izquierda
+            for (let i = cuerpo.length - 1; i >= 0; i--) {
+                suma += multiplo * parseInt(cuerpo.charAt(i));
+                multiplo++;
+                if (multiplo > 7) {
+                    multiplo = 2;
+                }
+            }
+
+            // Calcular dígito esperado
+            let dvEsperado = 11 - (suma % 11);
+
+            // Casos especiales
+            if (dvEsperado == 11) dvEsperado = '0';
+            if (dvEsperado == 10) dvEsperado = 'K';
+
+            // Comparar
+            return dvEsperado.toString() === dvIngresado;
+        }
+
+        function formatearRUT(rut) {
+            let valor = rut.replace(/\./g, '').replace(/-/g, '').replace(/[^0-9kK]/g, '');
+            if (valor.length < 2) return valor;
+
+            let cuerpo = valor.slice(0, -1);
+            let dv = valor.slice(-1).toUpperCase();
+
+            cuerpo = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+            return cuerpo + '-' + dv;
+        }
+
+        // Inicializar validación en tiempo real
+        document.getElementById('rut').addEventListener('input', function (e) {
+            let valorOriginal = e.target.value;
+            let valorFormateado = formatearRUT(valorOriginal);
+
+            if (valorOriginal !== valorFormateado) {
+                e.target.value = valorFormateado;
+            }
+
+            const btn = document.getElementById('btnMilitante');
+            const errorDiv = document.getElementById('rutError');
+
+            if (valorFormateado.length > 8) {
+                if (validarRUT(valorFormateado)) {
+                    e.target.style.borderColor = "#28a745";
+                    e.target.style.boxShadow = "0 0 5px rgba(40, 167, 69, 0.5)";
+                    errorDiv.style.display = "none";
+                    btn.disabled = false;
+                } else {
+                    e.target.style.borderColor = "#da191f";
+                    e.target.style.boxShadow = "0 0 5px rgba(218, 25, 31, 0.5)";
+                    errorDiv.style.display = "block";
+                    btn.disabled = true;
+                }
+            } else {
+                e.target.style.borderColor = "#ccc";
+                e.target.style.boxShadow = "none";
+                errorDiv.style.display = "none";
+                btn.disabled = false;
+            }
+        });
+
+        // ============================================
         // FORMULARIO
         // ============================================
         document.getElementById('btnMilitante').addEventListener('click', function () {
             let nombre = document.getElementById('nombre').value.trim();
+            let rut = document.getElementById('rut').value.trim().replace(/\./g, '');
             let email = document.getElementById('email').value.trim();
             let region = document.getElementById('region').value.trim();
             let mensajeDiv = document.getElementById('mensajeForm');
 
-            if (nombre === "" || email === "" || region === "") {
+            if (nombre === "" || rut === "" || email === "" || region === "") {
                 mensajeDiv.innerHTML = '<span style="color:#da191f;"><i class="fas fa-exclamation-circle"></i> ⚠️ Completa todos los campos para sumarte a los 20.000</span>';
                 return;
+            }
+
+            if (!validarRUT(rut)) {
+                mensajeDiv.innerHTML = '<span style="color:#da191f;"><i class="fas fa-id-card"></i> ❌ El RUT ingresado no es válido. Revisa el dígito verificador.</span>';
+                document.getElementById('rut').style.borderColor = '#da191f';
+                return;
+            } else {
+                document.getElementById('rut').style.borderColor = '#ccc';
             }
 
             let nuevoTotal = contadorActual + 1;
             animarContador(nuevoTotal);
             mensajeDiv.innerHTML = '<span style="color:#071643;"><i class="fas fa-check-circle"></i> ✅ ¡Bienvenido a la UDI! No olvides completar tu afiliación oficial en el SERVEL (link arriba).</span>';
             document.getElementById('nombre').value = '';
+            document.getElementById('rut').value = '';
             document.getElementById('email').value = '';
             document.getElementById('region').value = '';
         });
@@ -903,7 +1125,6 @@
         const chatInput = document.getElementById('chatInput');
         const chatSend = document.getElementById('chatSend');
 
-        // Base de conocimientos del chat
         const respuestas = {
             "¿Cómo me afilio a la UDI?": "📝 Para afiliarte a la UDI debes:\n1. Completar el formulario en esta página (nombre, email, región)\n2. Luego ingresar al SERVEL con tu ClaveÚnica: https://partidos.servel.cl/afiliacioncu\n3. Seleccionar UDI y enviar la solicitud\n4. Esperar confirmación del partido\n\n¡Todo el proceso es gratuito! 🇨🇱",
 
@@ -921,7 +1142,7 @@
         function addMessage(text, isUser = false) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
-            messageDiv.innerHTML = `<div class="message-bubble">${text}</div>`;
+            messageDiv.innerHTML = `<div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>`;
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -929,7 +1150,6 @@
         function getBotResponse(question) {
             const normalizedQuestion = question.trim().toLowerCase();
 
-            // Detectar palabras clave
             if (normalizedQuestion.includes('afili') || normalizedQuestion.includes('cómo me hago militante')) {
                 return respuestas["¿Cómo me afilio a la UDI?"];
             } else if (normalizedQuestion.includes('requisito') || normalizedQuestion.includes('necesito')) {
@@ -967,7 +1187,6 @@
             if (e.key === 'Enter') sendMessage();
         });
 
-        // Botones rápidos
         document.querySelectorAll('.quick-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const question = btn.getAttribute('data-question');
@@ -979,14 +1198,12 @@
             });
         });
 
-        // Cerrar chat si se hace clic fuera
         document.addEventListener('click', (e) => {
             if (!chatWindow.contains(e.target) && !chatButton.contains(e.target) && chatWindow.classList.contains('open')) {
                 chatWindow.classList.remove('open');
             }
         });
 
-        // REVEAL ANIMATION SCRIPT
         function initReveal() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -998,7 +1215,7 @@
             }, {
                 threshold: 0.1
             });
-            
+
             reveals.forEach(reveal => {
                 observer.observe(reveal);
             });
@@ -1008,6 +1225,7 @@
         window.onload = () => {
             renderizarLugares();
             agregarMarcadores();
+            dibujarRuta();
             initReveal();
             setTimeout(() => {
                 ajustarZoomAMarcadores();
